@@ -23,6 +23,32 @@ test('port can be bound when promise resolves', async t => {
 
 
 
+
+
+
+
+test('makeRange throws on invalid ranges', t => {
+  t.throws(() => {
+    getPort.makeRange(1025, 1024);
+  });
+  
+  t.throws(() => {
+    getPort.makeRange(0, 0);
+  });
+  
+  t.throws(() => {
+    getPort.makeRange(1023, 1023);
+  });
+  t.throws(() => {
+    getPort.makeRange(655336, 655336);
+  });
+});
+
+test('makeRange produces valid ranges', t => {
+  t.deepEqual([...getPort.makeRange(1024, 1024)], [1024]);
+  t.deepEqual([...getPort.makeRange(1024, 1025)], [1024, 1025]);
+  t.deepEqual([...getPort.makeRange(1024, 1027), [1024, 1025, 1026, 1027]]);
+});
 ```
 
 ```
